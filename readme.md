@@ -8,11 +8,11 @@ Após baixar o projeto execute a sequência a seguir de comandos:
 
 URL base da aplicação: http://localhost:8000/api
 
-#### ***GET /schedule*** 
+#### GET /schedule 
     
-    Rota para listagem de agendamentos;
+Rota para listagem de agendamentos;
 
-    response:
+Response:
  ```
     {
         schedules:[
@@ -31,11 +31,11 @@ URL base da aplicação: http://localhost:8000/api
     }
 ```
 
-#### ***POST /schedule*** 
+#### POST /schedule
     
-    Rota para cadastrar um agendamento;
+Rota para cadastrar um agendamento;
 
-    request:
+Request:
 ```
     {
         "email":"example@gmail.com",
@@ -54,9 +54,9 @@ a data de início não pode ser maior que data de término. Será lançado um er
 ***Nota 3:*** O campo "room_id" só aceita numeros de 1 á 5. Não poderá haver um agendamento com a mesma sala, data e hora. Será lançado um erro para cada uma das exceções.
 
 
-#### PUT /schedule/{ID}/cancel*** 
+#### PUT /schedule/{ID}/cancel 
 
-    Rota para cancelamento do agendamento. Alterar o <code>{ID}<code> para o ID do agendamento respectivo.
+Rota para cancelamento do agendamento. Alterar o <code>{ID}<code> para o ID do agendamento respectivo.
 
 ## Documentação lumen
 
