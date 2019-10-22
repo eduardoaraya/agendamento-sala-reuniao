@@ -1,8 +1,8 @@
 ## Introdução
 
 Após baixar o projeto execute a sequência a seguir de comandos:
-    - <code>composer install</code>
-    - <code>php aritsan migrate</code> ou poderá utilizar o arquivo ***data.dump*** para executar no banco de dados
+    * <code>composer install</code>
+    * <code>php aritsan migrate</code> ou poderá utilizar o arquivo ***data.sql*** para executar diretamente no banco de dados
 
 ### Documentação API
 
@@ -11,7 +11,8 @@ URL base da aplicação: http://localhost:8000/api
 ***GET /schedule*** 
     Rota para listar os agendamentos,
     resposta:
-<code>{
+ ```
+    {
         schedules:[
            {
                 "id": 1,
@@ -26,7 +27,8 @@ URL base da aplicação: http://localhost:8000/api
             }
         ]
     }
-</code>
+```
+
 
 ***POST /schedule*** 
 ***PUT /schedule/{id}/cancel*** 
