@@ -23,8 +23,10 @@ class Schedule extends Model
 
     public static function checkAvailability(int $room_id, string $start, string $end)
     {
-        return self::where('start_time','>=',$start)
-                        ->where('end_time','<=',$end)
+        return self::where(function($query) use ($start,$end) {
+                            $query->where('start_time','<=',$start);
+                            $query->Where('end_time','>=',$end);
+                        })
                         ->where('room_id',$room_id)
                         ->first();
     }
