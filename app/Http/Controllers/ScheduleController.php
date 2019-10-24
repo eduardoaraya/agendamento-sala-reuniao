@@ -95,10 +95,10 @@ class ScheduleController extends Controller
                 ],400);
             
             Schedule::create($request->all());
-
             return response()->json([
-                'schedules' => Schedule::active()->get()
-            ],200);
+                'message' => 'Sala agendada com sucesso!'
+            ],201);
+
         }catch(\Exception $e){
             return response()->json([
                 'error' => 'Erro interno',
@@ -113,8 +113,8 @@ class ScheduleController extends Controller
 
             Schedule::cancelById($schedule_id);
             return response()->json([
-                'schedules' => Schedule::active()->get()
-            ]);
+                'message' => 'Agendamento cancelado com sucesso!'
+            ],201);
         }catch(\Exception $e){
             return response()->json([
                 'error' => 'Erro interno'
