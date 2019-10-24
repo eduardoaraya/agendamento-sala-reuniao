@@ -20,7 +20,7 @@ class Schedule extends Migration
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->string('status')->default('active');
-            $table->text('description');
+            $table->string('description');
             $table->timestamps();
         });
     }
