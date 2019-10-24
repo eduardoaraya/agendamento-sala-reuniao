@@ -12,6 +12,15 @@ URL base da aplicação: http://localhost:8000/api
     
 Rota para listagem de agendamentos;
 
+O filtro pode ser feito tanto pela sala quanto pela data do agendamento.
+
+Request (opcional):
+```
+    {
+        "date":"2019-11-22",
+        "room_id":1
+    }
+```
 Response:
  ```
     {

@@ -23,16 +23,36 @@ class ScheduleController extends Controller
     }
 
     //
-    public function index()
+    public function index(Request $request)
     {
         try{
+
+            if($request->date && $request->room_id)
+                return response()->json([
+                    'schedules' => Schedule::active()
+                    ->whereDate('start_time',$request->date)
+                    ->where('room_id',$request->room_id)
+                    ->get()
+                ],200);
+
+            if($request->date)
+                return response()->json([
+                    'schedules' => Schedule::active()->whereDate('start_time',$request->date)->get()
+                ],200);
+
+            if($request->room_id)
+                return response()->json([
+                    'schedules' => Schedule::active()->where('room_id', $request->room_id)->get()
+                ],200);
 
             return response()->json([
                 'schedules' => Schedule::active()->get()
             ],200);
+
         }catch(\Exception $e){
             return response()->json([
-                'error' => 'Erro interno'
+                'error' => 'Erro interno',
+                'message' => $e->getMessage()
             ],500);
         }
     }
