@@ -21,11 +21,16 @@ class Schedule extends Model
         return $query->where('status','active');
     }
 
-    public static function checkAvailability(int $room_id, string $start, string $end)
+    public static function checkAvailability(int $room_id, $start, $end)
     {
         return self::where(function($query) use ($start,$end) {
-                            $query->where('start_time','<=',$start);
-                            $query->Where('end_time','>=',$end);
+                            $query->whereDate('start_time',$start->format('Y-m-d'));
+                            $query->whereBetween(
+                                \DB::raw('TIME(start_time)'),[$start->format('H:i:s'),$end->format('H:i:s')]
+                            );
+                            $query->whereBetween(
+                                \DB::raw('TIME(end_time)'),[$start->format('H:i:s'),$end->format('H:i:s')]
+                            );
                         })
                         ->where('room_id',$room_id)
                         ->first();
