@@ -3,6 +3,7 @@
 Após baixar o projeto execute a sequência a seguir de comandos:
 * <code>composer install</code>
 * <code>php aritsan migrate</code> ou poderá utilizar o arquivo ***data.sql*** para executar diretamente no banco de dados
+* <code>php -S localhost:8000 -t public</code>
 
 # Documentação API
 
