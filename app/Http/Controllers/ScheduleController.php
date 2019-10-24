@@ -57,7 +57,7 @@ class ScheduleController extends Controller
             $start = new Carbon($request->start_time);
             $end = new Carbon($request->end_time);
 
-            if($start->lte($end))
+            if($start->gt($end))
                 return response()->json([
                     'error' =>  'Data de inicio maior do que a de término'
                 ],400);
