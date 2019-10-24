@@ -24,7 +24,12 @@ class Schedule extends Model
     public static function checkAvailability(int $room_id, $start, $end)
     {
         return self::whereDate('start_time',$start->format('Y-m-d'))
-        ->whereRaw('HOUR(start_time) BETWEEN ? AND ? ',[$start->format('H'),$end->format('H')])
+        ->where(function($query) use ($start,$end){
+            $query->whereRaw('TIME(start_time) BETWEEN ? AND ?',[$start->format('H:i:s'),$end->format('H:i:s')]);
+            $query->whereRaw('TIME(end_time) BETWEEN ? AND ?',[$start->format('H:i:s'),$end->format('H:i:s')]);
+            $query->OrWhereRaw('? BETWEEN TIME(start_time) AND TIME(end_time)',[$start->format('H:i:s')]);
+            $query->OrWhereRaw('? BETWEEN TIME(start_time) AND TIME(end_time)',[$end->format('H:i:s')]);
+        })
         ->where('room_id',$room_id)
         ->first();
     }
