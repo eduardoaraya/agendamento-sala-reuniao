@@ -30,6 +30,13 @@ class Schedule extends Model
                         ->where('room_id',$room_id)
                         ->first();
     }
+
+    public static function cancelById($schedule_id)
+    {
+        $schedule = self::findOrFail($schedule_id);
+        $schedule->status = 'canceled';
+        $schedule->update();
+    }
     
 
 }

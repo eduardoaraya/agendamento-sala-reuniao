@@ -15,8 +15,6 @@ class ScheduleController extends Controller
      *
      * @return void
      */
-
-    const ROOM_IDS = array(1,2,3,4,5);
     const LIMIT_HOURS = 6;
 
     public function __construct()
@@ -32,7 +30,6 @@ class ScheduleController extends Controller
             return response()->json([
                 'schedules' => Schedule::active()->get()
             ],200);
-            
         }catch(\Exception $e){
             return response()->json([
                 'error' => 'Erro interno'
@@ -49,28 +46,22 @@ class ScheduleController extends Controller
                 'start_time'    => 'required|date|after:today',
                 'end_time'      => 'required|date|after:today',
                 'description'   => 'required|string',
-                'room_id'       => 'required|integer'
+                'room_id'       => 'required|integer|in:1,2,3,4,5'
             ]);
 
             if($validator->fails())
                 return response()->json([
                     'errors' => $validator->errors()
                 ],400);
-
-            if(strtotime($request->start_time) > strtotime($request->end_time))
-                return response()->json([
-                    'error' =>  'Data de inicio maior do que a de término'
-                ],400);
-            
-            if(!in_array($request->room_id, self::ROOM_IDS))
-                return response()->json([
-                    'error' => 'Sala inválida'
-                ],400);
-
             
             $start = new Carbon($request->start_time);
             $end = new Carbon($request->end_time);
 
+            if($start->lte($end))
+                return response()->json([
+                    'error' =>  'Data de inicio maior do que a de término'
+                ],400);
+                
             if($start->diffInHours($end) > self::LIMIT_HOURS)
                 return response()->json([
                     'error' =>  'Reunião atingiu o limite mínimo de '.self::LIMIT_HOURS.' horas.'
@@ -82,10 +73,10 @@ class ScheduleController extends Controller
                 ],400);
             
             Schedule::create($request->all());
+
             return response()->json([
                 'schedules' => Schedule::active()->get()
             ],200);
-            
         }catch(\Exception $e){
             return response()->json([
                 'error' => 'Erro interno',
@@ -98,13 +89,10 @@ class ScheduleController extends Controller
     {
         try{
 
-            $schedule = Schedule::findOrFail($schedule_id);
-            $schedule->status = 'canceled';
-            $schedule->update();
+            Schedule::cancelById($schedule_id);
             return response()->json([
                 'schedules' => Schedule::active()->get()
             ]);
-            
         }catch(\Exception $e){
             return response()->json([
                 'error' => 'Erro interno'
