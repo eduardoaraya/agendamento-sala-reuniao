@@ -23,17 +23,10 @@ class Schedule extends Model
 
     public static function checkAvailability(int $room_id, $start, $end)
     {
-        return self::where(function($query) use ($start,$end) {
-                            $query->whereDate('start_time',$start->format('Y-m-d'));
-                            $query->whereBetween(
-                                \DB::raw('TIME(start_time)'),[$start->format('H:i:s'),$end->format('H:i:s')]
-                            );
-                            $query->whereBetween(
-                                \DB::raw('TIME(end_time)'),[$start->format('H:i:s'),$end->format('H:i:s')]
-                            );
-                        })
-                        ->where('room_id',$room_id)
-                        ->first();
+        return self::whereDate('start_time',$start->format('Y-m-d'))
+        ->whereRaw('HOUR(start_time) BETWEEN ? AND ? ',[$start->format('H'),$end->format('H')])
+        ->where('room_id',$room_id)
+        ->first();
     }
 
     public static function cancelById($schedule_id)
