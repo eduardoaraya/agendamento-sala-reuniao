@@ -84,7 +84,7 @@ class ScheduleController extends Controller
                 
             if($start->diffInHours($end) > self::LIMIT_HOURS)
                 return response()->json([
-                    'error' =>  'Reunião atingiu o limite mínimo de '.self::LIMIT_HOURS.' horas.'
+                    'error' =>  'Reunião atingiu o limite máximo de '.self::LIMIT_HOURS.' horas.'
                 ],400);
             
             $checkAvailability = Schedule::checkAvailability($request->room_id, $start, $end);
